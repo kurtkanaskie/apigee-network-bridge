@@ -35,13 +35,13 @@ If you haven't done so already, use this script to configure Service Networking 
 ## Installation
 
 ```bash
-./setup-network.sh $project-id $region $apigee-instance-ip
+./setup-network.sh $project-id $region $vpc_name $apigee-instance-ip
 ```
 
 Example:
 
 ```bash
-./setup-network.sh foo us-west1 10.5.8.2
+./setup-network.sh foo us-west1 default 10.5.8.2
 ```
 
 ### Installation Explained
@@ -84,7 +84,7 @@ Chain POSTROUTING (policy ACCEPT 0 packets, 0 bytes)
 To clean up provisioned instances, run
 
 ```bash
-./cleanup-network.sh $project-id $region
+./cleanup-network.sh $project-id $region $vpc_name
 ```
 
 ___

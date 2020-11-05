@@ -13,17 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-echo $1
-echo $2
-echo $3
-
-project=$1
-region=$2
-
-echo "project id is " $1 
-echo "region name is " $2
-echo "Apigee endpoint is " $3
-
 if [ -z "$1" ]
   then
     echo "project id is a mandatory parameter."
@@ -38,9 +27,24 @@ fi
 
 if [ -z "$3" ]
   then
-    echo "Apigee endpoint is a mandatory parameter. It can be obtained by /v1/organizations/{org}/instances/{instance-name}"
+    echo "VPC is a mandatory parameter."
     exit 1
 fi
+
+#if [ -z "$4" ]
+#  then
+#    echo "Apigee endpoint is a mandatory parameter. It can be obtained by /v1/organizations/{org}/instances/{instance-name}"
+#    exit 1
+#fi
+
+echo "project id is " $1 
+echo "region name is " $2
+echo "VPC is " $3
+#echo "Apigee endpoint is " $4
+
+project=$1
+region=$2
+vpc_name=$3
 
 echo "Check gcloud\n"
 gcloud version 2>&1 >/dev/null
@@ -63,6 +67,7 @@ if [ $RESULT -ne 0 ]; then
   echo "this script depends on gsutil (https://cloud.google.com/storage/docs/gsutil_install)"
   exit 1
 fi
+echo "gsutil check successful"
 
 echo "Check Private Google Access\n"
 gcloud compute networks subnets describe $vpc_name --region=$region --format="get(privateIpGoogleAccess)" | grep True 2>&1 >/dev/null
@@ -71,3 +76,5 @@ if [ $RESULT -ne 0 ]; then
   echo "this script requires Private Google Access Configuration (https://cloud.google.com/vpc/docs/configure-private-google-access#config-pga)"
   exit 1
 fi
+echo "Private Google Access check successful"
+

@@ -14,6 +14,7 @@
 # limitations under the License.
 
 ./check-prereqs.sh $1 $2 $3
+
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   exit 1
@@ -21,7 +22,7 @@ fi
 
 project=$1
 region=$2
-vpc_name=default
+vpc_name=$3
 
 ./setup-gcs.sh $1 $2
 RESULT=$?
@@ -29,25 +30,26 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
-./setup-mig.sh $1 $2
+./setup-mig.sh $1 $2 $3
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
-while true; do
-    read -p "Do you to proceed with the creation and configuration of GCLB?" yn
-    case $yn in
-        [Yy]* ) break;;
-        [Nn]* ) exit 0;;
-        * ) echo "Please enter yes or no.";;
-    esac
-done
+#while true; do
+#    read -p "Do you to proceed with the creation and configuration of GCLB?" yn
+#    case $yn in
+#        [Yy]* ) break;;
+#        [Nn]* ) exit 0;;
+#        * ) echo "Please enter yes or no.";;
+#    esac
+#done
 
-./setup-loadbalancer.sh $1 $2
-RESULT=$?
-if [ $RESULT -ne 0 ]; then
-  exit 1
-fi
+#./setup-loadbalancer.sh $1 $2 $3
+#RESULT=$?
+#if [ $RESULT -ne 0 ]; then
+#  exit 1
+#fi
 
-exit 0
+#exit 0
+

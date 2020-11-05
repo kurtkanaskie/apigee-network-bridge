@@ -15,6 +15,8 @@
 
 project=$1
 region=$2
+vpc_name=$3
+domain=$4
 backend_name=apigee-network-bridge-backend
 
 # Reserve IP Address for Load Balancer
@@ -34,17 +36,17 @@ gcloud compute firewall-rules create k8s-allow-lb-to-apigee \
     --source-ranges=130.211.0.0/22,35.191.0.0/16 \
     --target-tags=gke-apigee-proxy
 
-echo "Check openssl\n"
-openssl 2>&1 >/dev/null
-RESULT=$?
-if [ $RESULT -ne 0 ]; then
-  echo "this script depends on openssl to generate self-signed certs"
-  exit 1
-fi
+#echo "Check openssl\n"
+#openssl 2>&1 >/dev/null
+#RESULT=$?
+#if [ $RESULT -ne 0 ]; then
+#  echo "this script depends on openssl to generate self-signed certs"
+#  exit 1
+#fi
 
 # create key and cert pair
 openssl genrsa -out tls.key 2048
-openssl req -x509 -new -nodes -key tls.key -subj "/CN=api.srinandans.com" -days 3650 -out tls.crt
+openssl req -x509 -new -nodes -key tls.key -subj "/CN=$domain" -days 3650 -out tls.crt
 
 echo "Upload certs\n"
 # upload certs to GCP
@@ -80,7 +82,7 @@ fi
 echo "Add instance group to backend service\n"
 # Add Instance Group to Backend Service
 gcloud compute backend-services add-backend $backend_name \
-    --project $project --instance-group $mig_name \
+    --project $project --instance-group apigee-network-bridge-$region-mig \
     --instance-group-region $region \
     --balancing-mode UTILIZATION --max-utilization 0.8 --global
 RESULT=$?

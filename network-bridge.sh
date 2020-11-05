@@ -21,11 +21,11 @@ if [ -x /bin/firewall-cmd ]
 then
    sysctl -w net.ipv4.ip_forward=1
    firewall-cmd --permanent --add-masquerade
-   firewall-cmd --permanent --add-forward-port=port=443:proto=tcp:toaddr=$endpoint
+   firewall-cmd --permanent --add-forward-port=port=443:proto=tcp:toaddr=10.14.0.2
 else
    sysctl -w net.ipv4.ip_forward=1
    iptables -t nat -A POSTROUTING -j MASQUERADE
-   iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination $endpoint
+   iptables -t nat -A PREROUTING -p tcp --dport 443 -j DNAT --to-destination 10.14.0.2
 fi
 
 exit 0

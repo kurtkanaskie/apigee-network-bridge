@@ -17,12 +17,12 @@ project=$1
 
 # configure service networking
 
-gcloud compute addresses create google-svcs --global \ 
-    --prefix-length=16 --description="peering range for Google services" \ 
+gcloud compute addresses create google-svcs --global \
+    --prefix-length=16 --description="peering range for Google services" \
     --network=default --purpose=VPC_PEERING --project=$project
 
 # This establishes the one-time, private connection between the customer project default VPC network and Google tenant projects.
  
 gcloud services vpc-peerings connect \
-    --service=servicenetworking.googleapis.com \ 
+    --service=servicenetworking.googleapis.com \
     --network=default --ranges=google-svcs --project=$project

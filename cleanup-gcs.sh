@@ -15,11 +15,11 @@
 
 project=$1
 region=$2
-buncket_name=apigee-nw-bridge-$project
+#buncket_name=apigee-nw-bridge-$project
 
 echo "Deleting GCS bucket\n"
 # create a bucket
-gsutil rb gs://apigee-nw-bridge-$project
+gsutil rm -r gs://apigee-nw-bridge-$project
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   echo "unable to delete bucket"

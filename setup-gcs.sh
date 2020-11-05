@@ -15,7 +15,7 @@
 
 project=$1
 region=$2
-buncket_name=apigee-nw-bridge-$project
+#buncket_name=apigee-nw-bridge-$project
 
 echo "Create GCS bucket\n"
 # create a bucket
