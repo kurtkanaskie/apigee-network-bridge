@@ -15,10 +15,6 @@
 
 # endpoint is not necessary to clean up instances
 
-echo $1
-echo $2
-echo $3
-
 project=$1
 region=$2
 vpc_name=$3
@@ -51,15 +47,6 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
-project=$1
-region=$2
-
-./cleanup-gcs.sh $1 $2
-RESULT=$?
-if [ $RESULT -ne 0 ]; then
-  exit 1
-fi
-
 ./cleanup-loadbalancer.sh $1 $2
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
@@ -72,3 +59,8 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
+./cleanup-gcs.sh $1 $2
+RESULT=$?
+if [ $RESULT -ne 0 ]; then
+  exit 1
+fi 
