@@ -31,16 +31,16 @@ if [ -z "$3" ]
     exit 1
 fi
 
-#if [ -z "$4" ]
-#  then
-#    echo "Apigee endpoint is a mandatory parameter. It can be obtained by /v1/organizations/{org}/instances/{instance-name}"
-#    exit 1
-#fi
+if [ -z "$4" ]
+  then
+    echo "Apigee endpoint is a mandatory parameter. It can be obtained by /v1/organizations/{org}/instances/{instance-name}"
+    exit 1
+fi
 
 echo "project id is " $1 
 echo "region name is " $2
 echo "VPC is " $3
-#echo "Apigee endpoint is " $4
+echo "Apigee endpoint is " $4
 
 project=$1
 region=$2

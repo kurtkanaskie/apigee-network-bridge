@@ -34,14 +34,26 @@ If you haven't done so already, use this script to configure Service Networking 
 
 ## Installation
 
+1) 
 ```bash
-./setup-network.sh $project-id $region $vpc_name $apigee-instance-ip
+./setup-network.sh $project-id $region $vpc_name $apigeeip
 ```
 
 Example:
 
 ```bash
-./setup-network.sh foo us-west1 default 10.5.8.2
+./setup-network.sh foo us-west1 default
+```
+
+2)
+```bash
+./setup-loadbalancer.sh $project-id $region $vpc_name $domain
+```
+
+Example:
+
+```bash
+./setup-loadbalancer.sh foo us-west1 default api.example.com
 ```
 
 ### Installation Explained
@@ -86,7 +98,11 @@ To clean up provisioned instances, run
 ```bash
 ./cleanup-network.sh $project-id $region $vpc_name
 ```
+Example:
 
+```bash
+./cleanup-network.sh foo us-west1 default
+```
 ___
 
 ## Support

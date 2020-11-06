@@ -41,7 +41,8 @@ if [ -z "$3" ]
     exit 1
 fi
 
-./check-prereqs.sh $1 $2 $3
+#apigeeip not required
+./check-prereqs.sh $1 $2 $3 NA
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   exit 1
