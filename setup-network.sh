@@ -13,7 +13,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-./check-prereqs.sh $1 $2 $3
+./check-prereqs.sh $1 $2 $3 $4
 
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
