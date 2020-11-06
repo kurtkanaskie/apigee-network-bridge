@@ -30,7 +30,7 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
-./setup-mig.sh $1 $2 $3
+./setup-mig.sh $1 $2 $3 $4
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   exit 1

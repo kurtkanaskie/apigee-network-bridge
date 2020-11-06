@@ -35,10 +35,10 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi
 
-echo "Enable public access\n"
+#echo "Enable public access\n"
 # enable full access to file
 #gsutil iam ch allUsers:objectViewer gs://apigee-nw-bridge-$project
-RESULT=$?
-if [ $RESULT -ne 0 ]; then
-  exit 1
-fi
+#RESULT=$?
+#if [ $RESULT -ne 0 ]; then
+#  exit 1
+#fi

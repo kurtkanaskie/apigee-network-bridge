@@ -42,7 +42,7 @@ If you haven't done so already, use this script to configure Service Networking 
 Example:
 
 ```bash
-./setup-network.sh foo us-west1 default
+./setup-network.sh foo us-west1 default 10.14.0.2
 ```
 
 2)

@@ -16,6 +16,9 @@
 project=$1
 region=$2
 vpc_name=$3
+apigeeip=$4
+
+
 mig_name=apigee-network-bridge-$region-mig
 
 echo "Create GCE instance template\n"
@@ -26,7 +29,7 @@ gcloud compute instance-templates create $mig_name \
   --machine-type e2-micro --image-family ubuntu-minimal-1804-lts \
   --image-project ubuntu-os-cloud --boot-disk-size 10GB \
   --preemptible --no-address \
-  --metadata=ENDPOINT=$3,startup-script-url=gs://apigee-nw-bridge-$project/network-bridge.sh
+  --metadata=ENDPOINT=$apigeeip,startup-script-url=gs://apigee-nw-bridge-$project/network-bridge.sh
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
   exit 1
