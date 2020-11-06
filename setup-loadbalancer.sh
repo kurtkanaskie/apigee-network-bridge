@@ -148,4 +148,4 @@ if [ $RESULT -ne 0 ]; then
   exit 1
 fi    
 
-echo "Load balancer complete. Try api as curl https://$lb_ip -kv\n"
+echo "Load balancer complete. Try api as curl https://$domain -kv\n"
