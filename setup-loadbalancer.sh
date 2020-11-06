@@ -13,6 +13,30 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+if [ -z "$1" ]
+  then
+    echo "project id is a mandatory parameter."
+    exit 1
+fi
+
+if [ -z "$2" ]
+  then
+    echo "region name is a mandatory parameter."
+    exit 1
+fi
+
+if [ -z "$3" ]
+  then
+    echo "VPC is a mandatory parameter."
+    exit 1
+fi
+
+if [ -z "$4" ]
+  then
+    echo "Apigee domain is a mandatory parameter."
+    exit 1
+fi
+
 project=$1
 region=$2
 vpc_name=$3
