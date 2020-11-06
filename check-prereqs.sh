@@ -50,7 +50,7 @@ echo "Check gcloud\n"
 gcloud version 2>&1 >/dev/null
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
-  echo "this script depends on gcloud (https://cloud.google.com/sdk/docs/install)"
+  echo "PRECHECK FAILED: This script depends on gcloud (https://cloud.google.com/sdk/docs/install)"
   exit 1
 fi
 
@@ -64,7 +64,7 @@ echo "Check gsutil\n"
 gsutil 2>&1 >/dev/null
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
-  echo "this script depends on gsutil (https://cloud.google.com/storage/docs/gsutil_install)"
+  echo "PRECHECK FAILED: This script depends on gsutil (https://cloud.google.com/storage/docs/gsutil_install)"
   exit 1
 fi
 echo "gsutil check successful"
@@ -73,7 +73,7 @@ echo "Check Private Google Access\n"
 gcloud compute networks subnets describe $vpc_name --region=$region --format="get(privateIpGoogleAccess)" | grep True 2>&1 >/dev/null
 RESULT=$?
 if [ $RESULT -ne 0 ]; then
-  echo "this script requires Private Google Access Configuration (https://cloud.google.com/vpc/docs/configure-private-google-access#config-pga)"
+  echo "PRECHECK FAILED: This script requires Private Google Access Configuration (https://cloud.google.com/vpc/docs/configure-private-google-access#config-pga)"
   exit 1
 fi
 echo "Private Google Access check successful"
