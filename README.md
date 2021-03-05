@@ -17,26 +17,50 @@ This repo contains scripts that provisions a managed instance group with NAT rul
 * gsutil CLI is installed
 * The GCP region which has the Apigee runtime instance enabled, has [Private Google Access](https://cloud.google.com/vpc/docs/configure-private-google-access#config-pga) enabled
 
+### Set Environment Variables
+```
+export project="your_project"
+export region="us-east1"
+export apigeeip="10.76.0.2"
+export vpc_name="default"
+export domain="eapi-test.kurtkanaskie.net"
+```
 To know which runtime instances you have, run the command:
 
 ```bash
 token="$(gcloud auth print-access-token)"
-curl -H "Authorization: Bearer $token" https://apigee.googleapis.com/v1/organizations/{org}/instances
+curl -H "Authorization: Bearer $token" https://apigee.googleapis.com/v1/organizations/$project/instances
 ```
 
-### VPC Peering
+### 1 Check Prerequisites
 
-If you haven't done so already, use this script to configure Service Networking to peer with Apigee
+```
+./check-prereqs.sh
+```
+If Private Group Access is fale enable with:
+```
+gcloud compute networks subnets update $vpc_name --region=$region --enable-private-ip-google-access
+```
+
+### 2 VPC Peering
+
+List Addresses and Peerings
+```
+gcloud compute addresses list
+gcloud services vpc-peerings list --network default
+```
+
+If none are listed, use this script to configure Service Networking to peer with Apigee
 
 ```bash
-./setup-peering.sh $project-id
+./setup-peering.sh $project
 ```
 
 ## Installation
 
-1) 
+1) Setup network
 ```bash
-./setup-network.sh $project-id $region $vpc_name $apigeeip
+./setup-network.sh $project $region $vpc_name $apigeeip
 ```
 
 Example:
@@ -45,9 +69,9 @@ Example:
 ./setup-network.sh foo us-west1 default 10.14.0.2
 ```
 
-2)
+2) Create load balancer
 ```bash
-./setup-loadbalancer.sh $project-id $region $vpc_name $domain
+./setup-loadbalancer.sh $project $region $vpc_name $domain
 ```
 
 Example:
@@ -62,6 +86,25 @@ Example:
 2. [Create a GCS Bucket](./setup-gcs.sh) and store VM startup script there
 3. [Create a GCE Instance template](./setup-mig.sh) (with the startup script created previously) and managed instance group with that template. 
 4. [Provision a load balancer](./setup-loadbalancer.sh) and add the MIG as the backend service
+
+## Test hello-world proxy
+If you used a different $domain than "$project-eval.apigee.net" then add your $domain to the Environment Group "eval".
+
+```
+export externalip="value_from_setup-loadbalancer.sh"
+curl -k --resolve "$domain:443:$externalip" https://$domain/hello-world
+```
+
+##  Configure your domain certificates
+
+1. Create certificates (Certbot and Google Domains)
+2. Create a DNS A record pointing to the "$externalip"
+3. Upload certificates to you project
+```
+gcloud compute ssl-certificates create your_certificate_name --project $project --certificate=fullchain.pem --private-key=privkey.pem
+```
+3. Add your certificate as an "Additional Certificate" on the GCLB.
+
 
 ### Validate Installation
 
